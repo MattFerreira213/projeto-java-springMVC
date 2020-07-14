@@ -1,0 +1,17 @@
+.navbar-brand{
+	padding-top: 12px;
+}
+
+.container-mx{
+	margin: 20px;
+}
+
+.link-panel {
+	float: right;
+	 text-align: justify;
+}
+
+.titulo-panel{
+	float: left;
+}
+
