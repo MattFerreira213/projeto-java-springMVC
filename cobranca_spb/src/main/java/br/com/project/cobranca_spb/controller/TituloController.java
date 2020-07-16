@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.project.cobranca_spb.model.StatusTitulo;
 import br.com.project.cobranca_spb.model.Titulo;
@@ -35,16 +36,14 @@ public class TituloController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView salvar(@Validated Titulo titulo, Errors errors) {
-		ModelAndView mv = new ModelAndView(CADASTRO_VIEW );
+	public String salvar(@Validated Titulo titulo, Errors errors, RedirectAttributes attributes) {
 		if(errors.hasErrors()) {
-			return mv;
+			return CADASTRO_VIEW;
 		}
 		
 		titulos.save(titulo);
-		
-		mv.addObject("mensagem", "Título cadastrado com sucesso!");
-		return mv;
+		attributes.addFlashAttribute("mensagem", "Título cadastrado com sucesso!");
+		return "redirect:/titulos/novo";
 	}
 	
 	@RequestMapping
@@ -61,6 +60,14 @@ public class TituloController {
 		ModelAndView mv = new ModelAndView(CADASTRO_VIEW );
 		mv.addObject("titulo", titulo.get());
 		return mv;
+	}
+	
+	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
+	public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
+		titulos.deleteById(id);
+		
+		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
+		return "redirect:/titulos";
 	}
 	
 	@ModelAttribute("todosStatusTitulo")

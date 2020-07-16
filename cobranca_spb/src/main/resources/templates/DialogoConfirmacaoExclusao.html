@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div class="modal fade" id="confirmacaoExclusaoModal" tabindex="-1" data-keyboard="false" data-backdrop="static">
+	<form action="/titulos" method="post">
+		<input type="hidden" name="_method" value="DELETE" />
+
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>Excluir Título</h4>
+				</div>
+				<div class="modal-body">Tem certeza que deseja excluir o título?</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					<button type="submit" class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+</html>
