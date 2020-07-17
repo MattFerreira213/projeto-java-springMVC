@@ -10,6 +10,9 @@
 <section layout:fragment="conteudo">
 	<div class="container-mx">
 		<form class="form-horizontal">
+
+			<div th:replace="MensagemGeral"></div>
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="clearfix">
@@ -45,8 +48,9 @@
 										class="glyphicon glyphicon-pencil"></span>
 
 								</a> <a class="btn btn-link btn-xs" data-toggle="modal"
-									data-target="#confirmacaoExclusaoModal" th:attr="data-codigo=${titulo.id}"> <span
-										class="glyphicon glyphicon-remove"></span>
+									data-target="#confirmacaoExclusaoModal"
+									th:attr="data-id=${titulo.id}, data-descricao=${titulo.descricao}">
+										<span class="glyphicon glyphicon-remove"></span>
 								</a></td>
 							</tr>
 							<tr>

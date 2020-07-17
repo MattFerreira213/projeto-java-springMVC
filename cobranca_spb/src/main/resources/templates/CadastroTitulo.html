@@ -11,7 +11,8 @@
 		<form class="form-horizontal" method="post" action="/titulos"
 			th:object="${titulo}">
 
-			<div th:replace="Mensagens"></div>
+			<div th:replace="MensagemGeral"></div>
+			<div th:replace="MensagemErro"></div>
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
