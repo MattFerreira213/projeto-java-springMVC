@@ -18,34 +18,43 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.project.cobranca_spb.model.StatusTitulo;
 import br.com.project.cobranca_spb.model.Titulo;
 import br.com.project.cobranca_spb.repository.Titulos;
+import br.com.project.cobranca_spb.service.CadastroTituloService;
 
 @Controller
 @RequestMapping("/titulos")
 public class TituloController {
-	
+
 	@Autowired
 	private Titulos titulos;
 	
+	@Autowired
+	private CadastroTituloService cadastroTituloService;
+
 	private static final String CADASTRO_VIEW = "CadastroTitulo";
-	
+
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
-		ModelAndView mv = new ModelAndView(CADASTRO_VIEW );
+		ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
 		mv.addObject(new Titulo());
 		return mv;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public String salvar(@Validated Titulo titulo, Errors errors, RedirectAttributes attributes) {
 		if(errors.hasErrors()) {
 			return CADASTRO_VIEW;
 		}
 		
-		titulos.save(titulo);
-		attributes.addFlashAttribute("mensagem", "Título cadastrado com sucesso!");
-		return "redirect:/titulos/novo";
+		try {
+			cadastroTituloService.salvar(titulo);
+			attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
+			return "redirect:/titulos/novo";
+		} catch (IllegalArgumentException ex) {
+			errors.rejectValue("dataVencimento", null, ex.getMessage());
+			return CADASTRO_VIEW;
+		}
 	}
-	
+
 	@RequestMapping
 	public ModelAndView pesquisa() {
 		List<Titulo> listaTitulos = titulos.findAll();
@@ -53,23 +62,23 @@ public class TituloController {
 		mv.addObject("titulos", listaTitulos);
 		return mv;
 	}
-	
+
 	@RequestMapping("{id}")
 	public ModelAndView edicao(@PathVariable Long id) {
 		Optional<Titulo> titulo = titulos.findById(id);
-		ModelAndView mv = new ModelAndView(CADASTRO_VIEW );
+		ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
 		mv.addObject("titulo", titulo.get());
 		return mv;
 	}
-	
-	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
+
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public String excluir(@PathVariable Long id, RedirectAttributes attributes) {
-		titulos.deleteById(id);
-		
+		cadastroTituloService.excluir(id);
+
 		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
 		return "redirect:/titulos";
 	}
-	
+
 	@ModelAttribute("todosStatusTitulo")
 	public List<StatusTitulo> todosStatusTitulo() {
 		return Arrays.asList(StatusTitulo.values());
