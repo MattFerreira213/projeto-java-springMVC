@@ -20,5 +20,28 @@ $('#confirmacaoExclusaoModal').on('show.bs.modal', function(event) {
 $(function() {
 	$('[rel="tooltip"]').tooltip();
 	$('.js-currency').maskMoney({decimal: ',', thousands: '.'});
+	
+	$('.js-atualizar-status').on('click', function(event) {
+		event.preventDefault();
+		
+		var botaoReceber = $(event.currentTarget);
+		var urlReceber = botaoReceber.attr('href');
+		
+		var response = $.ajax({
+			url: urlReceber,
+			type: 'PUT'
+		});
+		
+		response.done(function(e){
+			var idTitulo = botaoReceber.data('id');
+			$('[data-role=' + idTitulo + ']').html('<span class="label label-success">' + e + '</span>');
+			botaoReceber.hide();
+		});
+		
+		response.fail(function(e){
+			console.log(e);
+			alert('Erro de recebimento');		
+		});
+	});
 });
 
