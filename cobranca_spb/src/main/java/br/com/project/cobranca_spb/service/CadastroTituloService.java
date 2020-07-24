@@ -1,5 +1,7 @@
 package br.com.project.cobranca_spb.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.project.cobranca_spb.model.StatusTitulo;
 import br.com.project.cobranca_spb.model.Titulo;
 import br.com.project.cobranca_spb.repository.Titulos;
+import br.com.project.cobranca_spb.repository.filtro.TituloFitro;
 
 @Service
 public class CadastroTituloService {
@@ -33,5 +36,10 @@ public class CadastroTituloService {
 		titulos.save(titulo);
 		
 		return StatusTitulo.RECEBIDO.getDescricao();
+	}
+	
+	public List<Titulo> filtro(TituloFitro filtro){
+		String descricao = filtro.getDescricao() == null ? "" : filtro.getDescricao();
+		return titulos.findByDescricaoContaining(descricao);
 	}
 }
