@@ -10,6 +10,7 @@ Java 8
 ### Front-End
 Bootstrap version 3.4.1
 | Jquery version 3.1.1
+| JavaScript
 | Html5
 | Css3
 
