@@ -1,10 +1,14 @@
+@media(min-width: 768px){
+	.container-mx{
+	margin: 20px;
+	}
+}
+
 .navbar-brand{
 	padding-top: 12px;
 }
 
-.container-mx{
-	margin: 20px;
-}
+
 
 .link-panel {
 	float: right;
